@@ -6,22 +6,42 @@
 	{
 	  "name": "Explorer",
 	  "icon": "res/explorer.png",
-	  "url": "explorer"
+	  "url": "explorer",
+	  "type": "systemApp"
 	},
 	{
 	  "name": "Notepad",
 	  "icon": "res/note.png",
-	  "url": "notepad"
+	  "url": "notepad",
+	  "type": "systemApp"
 	},
 	{
 	  "name": "Paint",
 	  "icon": "res/paint.png",
-	  "url": "mspaint"
+	  "url": "mspaint",
+	  "type": "systemApp"
 	},
 	{
 	  "name": "Calculator",
 	  "icon": "res/calculator.png",
-	  "url": "calc"
+	  "url": "calc",
+	  "type": "systemApp"
+	},
+	{
+	  "name": "Google",
+	  "icon": "res/google.png",
+	  "url": "http://google.com",
+	  "type": "webApp",
+	  "appOptions": {
+		"uuid": "google",
+		"mainWindowOptions": {
+
+		  "defaultHeight": 600,
+		  "defaultWidth": 800,
+		  "defaultTop": 300,
+		  "defaultLeft": 300
+		}
+	  }
 	}
   ]
 }

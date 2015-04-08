@@ -116,8 +116,9 @@ var View = (function(){
         icon.src = config.icon;
         icon.width = width;
         icon.height = height;
+
         node.querySelector('.name').innerText = config.name;
-        this._apps.push(new App(node, config.name, config.url));
+        this._apps.push(new App(node, config.name, config.url, config.type === 'systemApp'? config.arguments: config.appOptions, config.type));
         document.body.appendChild(node);
     };
 
@@ -163,7 +164,6 @@ var Model = (function(){
     }
 
     Model.prototype.config = null;
-
     Model.prototype.filter = "";
     Model.prototype.onupdate = null;
 
@@ -179,23 +179,68 @@ var Model = (function(){
 
 var App = (function(){
 
-    function App(node, name, url, arguments){
+    function App(node, name, url, arguments, type){
 
         this.url = url;
         this.name = name;
         node.onclick = this.onClick.bind(this);
         this._node = node;
         this.arguments = arguments;
+        this.type = type;
+
+        this._onWebAppStarted = this._onWebAppStarted.bind(this)
+        this._onWebAppClosed = this._onWebAppClosed.bind(this)
     }
 
     App.prototype.url = "";
     App.prototype.name = "";
     App.prototype._node = null;
     App.prototype.arguments = null;
+    App.prototype.type = "";
+    App.prototype._webApp = null;
+    App.prototype.isRunning = false;
 
     App.prototype.onClick = function(){
 
-        fin.desktop.System.launchExternalProcess(this.url, this.arguments);
+        if(this.type == "systemApp") {
+
+            fin.desktop.System.launchExternalProcess(this.url, this.arguments);
+
+        } else {
+
+            this.arguments.name = this.name;
+            this.arguments.url = this.url;
+            this.arguments.autoShow = true;
+
+            if(!this.isRunning) {
+
+                this._webApp = new fin.desktop.Application(this.arguments, this._onWebAppLaunch.bind(this), this._onWebAppFail.bind(this));
+                this._webApp.addEventListener("started", this._onWebAppStarted);
+                this._webApp.addEventListener("closed", this._onWebAppClosed );
+            }
+        }
+    };
+
+    App.prototype._onWebAppLaunch = function(){
+
+        this._webApp.run();
+    };
+
+    App.prototype._onWebAppStarted = function(){
+
+        this.isRunning = true;
+    };
+
+    App.prototype._onWebAppClosed = function(){
+
+        this.isRunning = false;
+        this._webApp.removeEventListener("started", this._onWebAppStarted);
+        this._webApp.removeEventListener("closed", this._onWebAppClosed );
+    };
+
+    App.prototype._onWebAppFail = function(){
+
+        this._webApp.run();
     };
 
     App.prototype.show = function(value){
