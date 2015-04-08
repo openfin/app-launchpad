@@ -213,11 +213,29 @@ var App = (function(){
             this.arguments.autoShow = true;
 
             if(!this.isRunning) {
+                if(this._webApp) {
 
-                this._webApp = new fin.desktop.Application(this.arguments, this._onWebAppLaunch.bind(this), this._onWebAppFail.bind(this));
-                this._webApp.addEventListener("started", this._onWebAppStarted);
-                this._webApp.addEventListener("closed", this._onWebAppClosed );
+                    this._webApp.run();
+                } else {
+
+                    this._webApp = new fin.desktop.Application(this.arguments, this._onWebAppLaunch.bind(this), this._onWebAppFail.bind(this));
+                    this._webApp.addEventListener("started", this._onWebAppStarted);
+                    this._webApp.addEventListener("closed", this._onWebAppClosed);
+                }
             }
+        }
+    };
+
+    App.prototype.launchWebApp = function(){
+
+        fin.desktop.System.getAllApplications(this._applicationCallback.bind(this));
+    };
+
+    App.prototype._applicationCallback = function(appList){
+
+        for(var i = 0; i < appList.length; i++){
+
+            if(appList[i].uuid === this.arguments.uuid) reutrn;
         }
     };
 
