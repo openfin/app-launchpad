@@ -1,0 +1,27 @@
+{
+  "trayIcon": "https://developer.openf.in/download/openfin.png",
+  "iconWidth":"100",
+  "iconHeight":"100",
+  "applications": [
+	{
+	  "name": "Explorer",
+	  "icon": "res/explorer.png",
+	  "url": "explorer"
+	},
+	{
+	  "name": "Notepad",
+	  "icon": "res/note.png",
+	  "url": "notepad"
+	},
+	{
+	  "name": "Paint",
+	  "icon": "res/paint.png",
+	  "url": "mspaint"
+	},
+	{
+	  "name": "Calculator",
+	  "icon": "res/calculator.png",
+	  "url": "calc"
+	}
+  ]
+}

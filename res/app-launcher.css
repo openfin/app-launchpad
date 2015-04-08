@@ -1,0 +1,31 @@
+.app{
+
+    float:left;
+    cursor: pointer;
+    padding: 5px;
+}
+.name{
+
+    text-align: center;
+    font-family: arial, sans-serif;
+    font-size: 14px;
+    padding-top: 10px;
+    color:#464646;
+}
+
+.icon{
+
+
+}
+
+.search{
+
+    display: none;
+}
+
+.searchInput{
+
+    border: none;
+    border-bottom: 1px solid gray;
+    outline: 0;
+}

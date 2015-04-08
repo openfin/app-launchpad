@@ -1,0 +1,20 @@
+{
+  "devtools_port": 9090,
+  "startup_app": {
+    "name": "app-launcher",
+    "url": "http://localhost.mac/app-launcher/",
+    "uuid": "openfin-app-launcher",
+    "applicationIcon": "http://localhost.mac/favicon.ico",
+    "autoShow": true
+  },
+  "runtime": {
+    "arguments": "",
+    "version": "stable"
+  },
+  "shortcut": {
+    "company": "OpenFin",
+    "description": "openfin-app-launcher",
+    "icon": "http://localhost:5000/favicon.ico",
+    "name": "app-launcher"
+  }
+}
