@@ -8,8 +8,6 @@ window.addEventListener("DOMContentLoaded", function(){
 
         fin.desktop.System.clearCache({
             cache: true,
-            cookies: true,
-            localStorage: true,
             appcache: true,
             userData: true
         });
@@ -66,8 +64,8 @@ var Controller = (function(){
 
         var config = JSON.parse(event.target.response);
         this.model = new Model(config);
+        this.model.onReady = this._onModelReady.bind(this);
         this.model.onupdate = this.onFilterUpdate.bind(this);
-        this.view.initialize(config);
 
         if(config.trayIcon){
 
@@ -75,6 +73,12 @@ var Controller = (function(){
             currentWindow.addEventListener("minimized", this._onMinimized.bind(this));
             currentApp = fin.desktop.Application.getCurrent();
         }
+
+    };
+
+    Controller.prototype._onModelReady = function(){
+
+        this.view.initialize(this.model.config, this.model.existingAppList);
     };
 
     Controller.prototype.onFilterUpdate = function(){
@@ -83,6 +87,7 @@ var Controller = (function(){
     };
 
     return Controller;
+
 })();
 
 var View = (function(){
@@ -96,16 +101,17 @@ var View = (function(){
     View.prototype._node = null;
     View.prototype._apps = [];
 
-    View.prototype.initialize = function(config){
+    View.prototype.initialize = function(config, existingApps){
 
         var apps = config.applications;
         var length = apps.length;
         var item = null;
-
+        var app = null;
         for(var i = 0; i < length; i++){
 
             item = apps[i];
-            this.addAppTile(item, config.iconWidth, config.iconHeight);
+            app = this.addAppTile(item, config.iconWidth, config.iconHeight);
+            if(item.appOptions && existingApps[item.appOptions.uuid] !== undefined) app.getWebApp(item.appOptions.uuid);
         }
     };
 
@@ -118,8 +124,11 @@ var View = (function(){
         icon.height = height;
 
         node.querySelector('.name').innerText = config.name;
-        this._apps.push(new App(node, config.name, config.url, config.type === 'systemApp'? config.arguments: config.appOptions, config.type));
+        var app = new App(node, config.name, config.url, config.type === 'systemApp'? config.arguments: config.appOptions, config.type);
+        this._apps.push(app);
         document.body.appendChild(node);
+
+        return app;
     };
 
     View.prototype.showSearch = function(value){
@@ -161,11 +170,27 @@ var Model = (function(){
         this.config = config;
         searchInput = document.querySelector('.searchInput');
         searchInput.onkeyup = this.onSearchChange.bind(this);
+
+        fin.desktop.System.getAllApplications(this._getAllApplicationCallback.bind(this));
     }
 
     Model.prototype.config = null;
     Model.prototype.filter = "";
     Model.prototype.onupdate = null;
+    Model.prototype.existingAppList = {};
+    Model.prototype.onReady = function(){};
+
+    Model.prototype._getAllApplicationCallback = function(applicationInfoList){
+
+        var length = applicationInfoList.length;
+
+        for(var i = 0; i < length; i++){
+
+            this.existingAppList[applicationInfoList[i].uuid] = applicationInfoList[i].isRunning;
+        }
+
+        this.onReady();
+    };
 
     Model.prototype.onSearchChange = function(event){
 
@@ -188,8 +213,8 @@ var App = (function(){
         this.arguments = arguments;
         this.type = type;
 
-        this._onWebAppStarted = this._onWebAppStarted.bind(this)
-        this._onWebAppClosed = this._onWebAppClosed.bind(this)
+        this._onWebAppStarted = this._onWebAppStarted.bind(this);
+        this._onWebAppClosed = this._onWebAppClosed.bind(this);
     }
 
     App.prototype.url = "";
@@ -208,6 +233,8 @@ var App = (function(){
 
         } else {
 
+            this._node.style.cursor = "wait";
+
             this.arguments.name = this.name;
             this.arguments.url = this.url;
             this.arguments.autoShow = true;
@@ -218,25 +245,17 @@ var App = (function(){
                     this._webApp.run();
                 } else {
 
-                    this._webApp = new fin.desktop.Application(this.arguments, this._onWebAppLaunch.bind(this), this._onWebAppFail.bind(this));
-                    this._webApp.addEventListener("started", this._onWebAppStarted);
-                    this._webApp.addEventListener("closed", this._onWebAppClosed);
+                    this._webApp = new fin.desktop.Application(this.arguments, this._onWebAppLaunch.bind(this));
+                    this._addAppListeners();
                 }
             }
         }
     };
 
-    App.prototype.launchWebApp = function(){
+    App.prototype._addAppListeners = function(){
 
-        fin.desktop.System.getAllApplications(this._applicationCallback.bind(this));
-    };
-
-    App.prototype._applicationCallback = function(appList){
-
-        for(var i = 0; i < appList.length; i++){
-
-            if(appList[i].uuid === this.arguments.uuid) reutrn;
-        }
+        this._webApp.addEventListener("started", this._onWebAppStarted);
+        this._webApp.addEventListener("closed", this._onWebAppClosed);
     };
 
     App.prototype._onWebAppLaunch = function(){
@@ -246,24 +265,24 @@ var App = (function(){
 
     App.prototype._onWebAppStarted = function(){
 
+        this._node.style.cursor = "pointer";
         this.isRunning = true;
     };
 
     App.prototype._onWebAppClosed = function(){
 
         this.isRunning = false;
-        this._webApp.removeEventListener("started", this._onWebAppStarted);
-        this._webApp.removeEventListener("closed", this._onWebAppClosed );
-    };
-
-    App.prototype._onWebAppFail = function(){
-
-        this._webApp.run();
     };
 
     App.prototype.show = function(value){
 
         this._node.style.display  = value? "block": "none";
+    };
+
+    App.prototype.getWebApp = function(uuid){
+
+        this._webApp = fin.desktop.Application.wrap(uuid, this.name);
+        this._addAppListeners();
     };
 
     return App;
