@@ -1,0 +1,46 @@
+.app{
+
+    clear:both;
+    cursor: pointer;
+    padding: 5px;
+    display: table-row;
+    border-bottom: 1px dashed gray;
+    width:95%;
+}
+
+.appSelected {
+
+    clear:both;
+    cursor: pointer;
+    padding: 5px;
+    display: table-row;
+    border-bottom: 1px dashed gray;
+    width:95%;
+    background-color: #d2d2d2;
+}
+.name{
+
+    text-align: left;
+    font-family: arial, sans-serif;
+    font-size: 14px;
+    padding: 20px;
+    color:#464646;
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.icon{
+    display: table-cell;
+}
+
+.search{
+
+    display: none;
+}
+
+.searchInput{
+
+    border: none;
+    border-bottom: 1px solid gray;
+    outline: 0;
+}

@@ -36,7 +36,30 @@ var Controller = (function(){
         if(event.keyCode >= 65 && event.keyCode <= 90) {
 
             this.view.showSearch(true);
+        } else switch (event.keyCode){
+
+            case 40: //down;
+                this._selectNext();
+                break;
+            case 38: // up;
+                this._selectPrevious();
+                break;
+            case 13:
+                if(this.model.selectedIndex >= 0){
+
+                    this.model.applications[this.model.selectedIndex].launch();
+                };
         }
+    };
+
+    Controller.prototype._selectNext = function(){
+
+        this.model.selectNext();
+    };
+
+    Controller.prototype._selectPrevious = function(){
+
+        this.model.selectPrevious();
     };
 
     Controller.prototype._onMinimized = function(){
@@ -73,12 +96,11 @@ var Controller = (function(){
             currentWindow.addEventListener("minimized", this._onMinimized.bind(this));
             currentApp = fin.desktop.Application.getCurrent();
         }
-
     };
 
     Controller.prototype._onModelReady = function(){
 
-        this.view.initialize(this.model.config, this.model.existingAppList);
+        this.model.applications = this.view.initialize(this.model.config, this.model.existingAppList);
     };
 
     Controller.prototype.onFilterUpdate = function(){
@@ -103,16 +125,20 @@ var View = (function(){
 
     View.prototype.initialize = function(config, existingApps){
 
-        var apps = config.applications;
-        var length = apps.length;
+        var apps = [];
+        var applist = config.applications;
+        var length = applist.length;
         var item = null;
         var app = null;
         for(var i = 0; i < length; i++){
 
-            item = apps[i];
+            item = applist[i];
             app = this.addAppTile(item, config.iconWidth, config.iconHeight);
             if(item.appOptions && existingApps[item.appOptions.uuid] !== undefined) app.getWebApp(item.appOptions.uuid);
+            apps.push(app);
         }
+
+        return apps;
     };
 
     View.prototype.addAppTile = function(config, width, height){
@@ -137,11 +163,13 @@ var View = (function(){
 
             document.querySelector('.search').style.display = "block";
             document.querySelector('.searchInput').focus();
+            document.getElementById("style").href = "res/search.css";
 
         } else {
 
             document.querySelector('.search').style.display = "none";
             document.querySelector('.searchInput').value = "";
+            document.getElementById("style").href = "res/app-launcher.css";
         }
     };
 
@@ -177,6 +205,8 @@ var Model = (function(){
     Model.prototype.config = null;
     Model.prototype.filter = "";
     Model.prototype.onupdate = null;
+    Model.prototype.selectedIndex = -1;
+    Model.prototype.applications = null;
     Model.prototype.existingAppList = {};
     Model.prototype.onReady = function(){};
 
@@ -197,6 +227,46 @@ var Model = (function(){
         if(event.keyCode == 27) searchInput.value = "";
         this.filter  = searchInput.value.toLowerCase();
         this.onupdate();
+    };
+
+    Model.prototype.selectNext = function(){
+
+        if(this.selectedIndex < 0){
+
+            this.selectedIndex = 0;
+
+        } else {
+
+            this.applications[this.selectedIndex].select(false);
+            do{
+
+                this.selectedIndex++;
+                if(this.selectedIndex == this.applications.length)this.selectedIndex = 0;
+
+            } while( !this.applications[this.selectedIndex].isVisible );
+
+        }
+
+        this.applications[this.selectedIndex].select(true);
+
+    };
+
+    Model.prototype.selectPrevious = function(){
+
+        if(this.selectedIndex < 0){
+
+            this.selectedIndex = 0;
+
+        } else {
+
+            this.applications[this.selectedIndex].select(false);
+            do {
+                this.selectedIndex--;
+                if (this.selectedIndex < 0) this.selectedIndex = this.applications.length - 1;
+            } while(!this.applications[this.selectedIndex].isVisible);
+        }
+
+        this.applications[this.selectedIndex].select(true);
     };
 
     return Model;
@@ -224,8 +294,15 @@ var App = (function(){
     App.prototype.type = "";
     App.prototype._webApp = null;
     App.prototype.isRunning = false;
+    App.prototype.isSelected = true;
+    App.prototype.isVisible = true;
 
     App.prototype.onClick = function(){
+
+        this.launch();
+    };
+
+    App.prototype.launch = function(){
 
         if(this.type == "systemApp") {
 
@@ -276,13 +353,27 @@ var App = (function(){
 
     App.prototype.show = function(value){
 
-        this._node.style.display  = value? "block": "none";
+        this._node.style.display  = value? "table-row": "none";
+        this.isVisible = value;
     };
 
     App.prototype.getWebApp = function(uuid){
 
         this._webApp = fin.desktop.Application.wrap(uuid, this.name);
         this._addAppListeners();
+    };
+
+    App.prototype.select = function(value){
+
+        this.isSelected = value;
+
+        if(value){
+
+            this._node.className = "appSelected";
+        } else {
+
+            this._node.className = "app";
+        }
     };
 
     return App;
