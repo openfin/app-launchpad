@@ -2,9 +2,9 @@
   "devtools_port": 9090,
   "startup_app": {
     "name": "app-launcher",
-    "url": "http://localhost.mac/app-launcher/",
+    "url": "http://localhost:5000/",
     "uuid": "openfin-app-launcher",
-    "applicationIcon": "http://localhost.mac/favicon.ico",
+    "applicationIcon": "http://localhost:5000/favicon.ico",
     "autoShow": true
   },
   "runtime": {

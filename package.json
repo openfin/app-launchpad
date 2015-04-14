@@ -1,0 +1,20 @@
+{
+    "name": "OpenFinGrid",
+    "version": "0.0.1",
+    "description": "OpenFin Grid",
+    "main": "server.js",
+    "scripts": {
+        "test": "grunt test"
+    },
+    "author": "",
+    "license": "MIT",
+    "homepage": "https://openfin.co",
+    "dependencies": {
+        "express": "^4.2.0",
+        "grunt": "^0.4",
+        "grunt-cli": "^0.1",
+        "grunt-contrib-jshint": "^0.10",
+        "grunt-contrib-watch": "^0.6",
+        "grunt-jsbeautifier": "^0.2.7"
+    }
+}
