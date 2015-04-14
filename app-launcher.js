@@ -48,8 +48,8 @@ var Controller = (function(){
     Controller.prototype._onTrayIconClicked = function(){
 
         currentApp.removeTrayIcon();
-        currentWindow.restore();
         currentWindow.show();
+        currentWindow.restore();
     };
 
     Controller.prototype.loadConfig = function(){
