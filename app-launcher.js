@@ -106,7 +106,7 @@ var Controller = (function(){
 
     Controller.prototype.onFilterUpdate = function(){
 
-        this.view.filter(this.model.filter);
+        return this.view.filter(this.model.filter);
     };
 
     return Controller;
@@ -131,6 +131,7 @@ var View = (function(){
         var length = applist.length;
         var item = null;
         var app = null;
+
         for(var i = 0; i < length; i++){
 
             item = applist[i];
@@ -179,12 +180,16 @@ var View = (function(){
         this.showSearch(filterString != "");
         var length = this._apps.length;
         var currentApp = null;
+        var anyVisible = false;
 
         for(var i = 0; i < length; i++){
 
             currentApp = this._apps[i];
             currentApp.show(filterString == "" || currentApp.name.toLowerCase().indexOf(filterString) > -1);
+            if(currentApp.isVisible) anyVisible = true;
         }
+
+        return anyVisible;
     };
 
     return View;
@@ -208,6 +213,7 @@ var Model = (function(){
     Model.prototype.onupdate = null;
     Model.prototype.selectedIndex = -1;
     Model.prototype.applications = null;
+    Model.prototype.hasResult = false;
     Model.prototype.existingAppList = {};
     Model.prototype.onReady = function(){};
 
@@ -245,12 +251,16 @@ var Model = (function(){
 
         if(event.keyCode == 27) searchInput.value = "";
         this.filter  = searchInput.value.toLowerCase();
-        this.onupdate();
-        this.resetSelect();
-        if(this.filter != "")this.selectNext();
+        if(this.hasResult = this.onupdate()) {
+
+            this.resetSelect();
+            if (this.filter != "")this.selectNext();
+        }
     };
 
     Model.prototype.selectNext = function(){
+
+        if(!this.hasResult) return;
 
         this.unSelect();
 
@@ -265,6 +275,8 @@ var Model = (function(){
     };
 
     Model.prototype.selectPrevious = function(){
+
+        if(!this.hasResult) return;
 
         this.unSelect();
 
