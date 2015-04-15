@@ -7,6 +7,7 @@
     border-bottom: 1px dashed gray;
     width:95%;
     color:#464646;
+    -webkit-user-select: none;
 }
 
 .appSelected {
@@ -19,6 +20,7 @@
     width:95%;
     background-color: Highlight;
     color:HighlightText;
+    -webkit-user-select: none;
 }
 .name{
 

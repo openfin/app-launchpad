@@ -119,6 +119,9 @@ var View = (function(){
 
         var template = document.querySelector('#app-launcher-template');
         this._node = document.importNode(template.content, true);
+        this._onDragStart = this._onDragStart.bind(this);
+        this._onDragOver = this._onDragOver.bind(this);
+        this._onDrop = this._onDrop.bind(this);
     }
 
     View.prototype._node = null;
@@ -146,7 +149,13 @@ var View = (function(){
     View.prototype.addAppTile = function(config, width, height){
 
         var node = this._node.querySelector('.app').cloneNode(true);
+        node.id = config.name;
+        node.draggable = true;
+        node.ondragstart = this._onDragStart;
+        node.ondrop = this._onDrop;
+        node.ondragover = this._onDragOver;
         var icon = node.querySelector('.icon');
+        icon.draggable = false;
         icon.src = config.icon;
         icon.width = width;
         icon.height = height;
@@ -157,6 +166,28 @@ var View = (function(){
         document.body.appendChild(node);
 
         return app;
+    };
+
+    View.prototype._onDragStart = function(event){
+
+        event.dataTransfer.setData("id", event.target.id);
+    };
+
+    View.prototype._onDrop = function(event){
+
+        var dropTargetIndex = [].indexOf.call(document.body.children, event.target.parentNode);
+        var dragTargetIndex = [].indexOf.call(document.body.children, document.getElementById(event.dataTransfer.getData("id")));
+        console.log(event);
+        if(dragTargetIndex > dropTargetIndex)
+            document.body.insertBefore(document.getElementById(event.dataTransfer.getData("id")), event.target.parentNode);
+        else
+            document.body.insertBefore(document.getElementById(event.dataTransfer.getData("id")), event.target.parentNode.nextSibling);
+    };
+
+    View.prototype._onDragOver = function(event){
+
+        event.preventDefault();
+
     };
 
     View.prototype.showSearch = function(value){

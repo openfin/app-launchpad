@@ -4,6 +4,7 @@
     cursor: pointer;
     padding: 5px;
     color:#464646;
+    -webkit-user-select: none;
 }
 
 .appSelected{
@@ -13,6 +14,7 @@
     padding: 5px;
     background-color:Highlight;
     color:HighlightText;
+    -webkit-user-select: none;
 }
 .name{
 
