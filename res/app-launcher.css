@@ -3,6 +3,16 @@
     float:left;
     cursor: pointer;
     padding: 5px;
+    color:#464646;
+}
+
+.appSelected{
+
+    float:left;
+    cursor: pointer;
+    padding: 5px;
+    background-color:Highlight;
+    color:HighlightText;
 }
 .name{
 
@@ -10,7 +20,6 @@
     font-family: arial, sans-serif;
     font-size: 14px;
     padding-top: 10px;
-    color:#464646;
 }
 
 .icon{
