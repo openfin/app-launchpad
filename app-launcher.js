@@ -49,11 +49,7 @@ var Controller = (function(){
                 this._selectPrevious();
                 break;
 
-            case 13:
-                if(this.model.selectedIndex >= 0){
-
-                    this.model.applications[this.model.selectedIndex].launch();
-                };
+            case 13: if(this.model.selectedIndex >= 0) this.model.applications[this.model.selectedIndex].launch();
         }
     };
 
@@ -245,6 +241,8 @@ var Model = (function(){
             case 38:
             case 39:
             case 40: return;
+            case 13:
+                searchInput.value = "";
         };
 
         if(event.keyCode == 27) searchInput.value = "";
@@ -302,6 +300,8 @@ var Model = (function(){
     Model.prototype._onAppLaunch = function(){
 
         this.resetSelect();
+        this.filter = searchInput.value = "";
+        this.onupdate();
     };
 
     return Model;
