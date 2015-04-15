@@ -241,15 +241,13 @@ var Model = (function(){
             case 38:
             case 39:
             case 40: return;
-            case 13:
-                searchInput.value = "";
         };
 
         if(event.keyCode == 27) searchInput.value = "";
         this.filter  = searchInput.value.toLowerCase();
         this.onupdate();
         this.resetSelect();
-        this.selectNext();
+        if(this.filter != "")this.selectNext();
     };
 
     Model.prototype.selectNext = function(){
