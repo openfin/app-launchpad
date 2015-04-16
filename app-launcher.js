@@ -184,8 +184,10 @@ var View = (function(){
 
     View.prototype._onDrop = function(event){
 
-        document.body.removeChild(this._bar);
+        if(dragTarget == event.target.parentNode) return;
 
+        document.body.removeChild(this._bar);
+        
         var dropTargetIndex = [].indexOf.call(document.body.children, event.target.parentNode);
         var dragTargetIndex = [].indexOf.call(document.body.children, dragTarget);
 
@@ -198,6 +200,7 @@ var View = (function(){
     View.prototype._onDragOver = function(event){
 
         event.preventDefault();
+
         if(event.target == dragTarget || event.target.parentNode == dragTarget || event.target.parentNode.className != "app") {
 
             if( document.body.contains(this._bar))document.body.removeChild(this._bar);
