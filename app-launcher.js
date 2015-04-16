@@ -122,9 +122,14 @@ var View = (function(){
         this._onDragStart = this._onDragStart.bind(this);
         this._onDragOver = this._onDragOver.bind(this);
         this._onDrop = this._onDrop.bind(this);
+
+        var bar = document.getElementById("bar");
+        document.body.removeChild(bar);
+        this._bar = bar;
     }
 
     View.prototype._node = null;
+    View.prototype._bar = null;
     View.prototype._apps = [];
 
     View.prototype.initialize = function(config, existingApps){
@@ -154,6 +159,7 @@ var View = (function(){
         node.ondragstart = this._onDragStart;
         node.ondrop = this._onDrop;
         node.ondragover = this._onDragOver;
+
         var icon = node.querySelector('.icon');
         icon.draggable = false;
         icon.src = config.icon;
@@ -168,25 +174,43 @@ var View = (function(){
         return app;
     };
 
+    var dragTarget = null;
+
     View.prototype._onDragStart = function(event){
 
-        event.dataTransfer.setData("id", event.target.id);
+        //event.dataTransfer.setData("id", event.target.id);
+        dragTarget = event.target;
     };
 
     View.prototype._onDrop = function(event){
 
+        document.body.removeChild(this._bar);
+
         var dropTargetIndex = [].indexOf.call(document.body.children, event.target.parentNode);
-        var dragTargetIndex = [].indexOf.call(document.body.children, document.getElementById(event.dataTransfer.getData("id")));
-        console.log(event);
+        var dragTargetIndex = [].indexOf.call(document.body.children, dragTarget);
+
         if(dragTargetIndex > dropTargetIndex)
-            document.body.insertBefore(document.getElementById(event.dataTransfer.getData("id")), event.target.parentNode);
+            document.body.insertBefore(dragTarget, event.target.parentNode);
         else
-            document.body.insertBefore(document.getElementById(event.dataTransfer.getData("id")), event.target.parentNode.nextSibling);
+            document.body.insertBefore(dragTarget, event.target.parentNode.nextSibling);
     };
 
     View.prototype._onDragOver = function(event){
 
         event.preventDefault();
+        if(event.target == dragTarget || event.target.parentNode == dragTarget || event.target.parentNode.className != "app") {
+
+            if( document.body.contains(this._bar))document.body.removeChild(this._bar);
+            return;
+        }
+
+        var dropTargetIndex = [].indexOf.call(document.body.children, event.target.parentNode);
+        var dragTargetIndex = [].indexOf.call(document.body.children, dragTarget);
+
+        if(dragTargetIndex > dropTargetIndex)
+            document.body.insertBefore(this._bar, event.target.parentNode);
+        else
+            document.body.insertBefore(this._bar, event.target.parentNode.nextSibling);
 
     };
 

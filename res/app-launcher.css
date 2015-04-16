@@ -6,7 +6,13 @@
     color:#464646;
     -webkit-user-select: none;
 }
+#bar{
 
+    width:2px;
+    height:100px;
+    background-color: gray;
+    float:left;
+}
 .appSelected{
 
     float:left;
