@@ -4,7 +4,7 @@
     "name": "app-launcher",
     "url": "http://localhost.mac/app-launchpad",
     "uuid": "openfin-app-launcher",
-    "applicationIcon": "http://openfin.github.io/app-launchpad",
+    "applicationIcon": "http://openfin.github.io/app-launchpad/openfin.ico",
     "autoShow":true,
     "mainWindowOptions":{},
     "frame": false,
@@ -18,7 +18,7 @@
   "shortcut": {
     "company": "OpenFin",
     "description": "openfin-app-launcher",
-    "icon": "http://openfin.github.io/app-launchpad",
+    "icon": "http://openfin.github.io/app-launchpad/openfin.ico",
     "name": "app-launcher"
   }
 }
