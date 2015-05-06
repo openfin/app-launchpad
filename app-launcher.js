@@ -2,6 +2,7 @@
  * Created by haseebriaz on 02/04/15.
  */
 
+
 window.addEventListener("DOMContentLoaded", function(){
 
     fin.desktop.main(function(){
@@ -134,6 +135,8 @@ var View = (function(){
 
     View.prototype.initialize = function(config, existingApps){
 
+
+        document.getElementById("title").innerText = config.title;
         var apps = [];
         var applist = config.applications;
         var length = applist.length;
@@ -184,10 +187,10 @@ var View = (function(){
 
     View.prototype._onDrop = function(event){
 
-        if(dragTarget == event.target.parentNode) return;
+        if(dragTarget == event.target.parentNode || event.target.parentNode.className != "app" ) return;
 
         document.body.removeChild(this._bar);
-        
+
         var dropTargetIndex = [].indexOf.call(document.body.children, event.target.parentNode);
         var dragTargetIndex = [].indexOf.call(document.body.children, dragTarget);
 
@@ -221,13 +224,13 @@ var View = (function(){
 
         if(value) {
 
-            document.querySelector('.search').style.display = "block";
+            //document.querySelector('.search').style.display = "block";
             document.querySelector('.searchInput').focus();
             document.getElementById("style").href = "res/search.css";
 
         } else {
 
-            document.querySelector('.search').style.display = "none";
+            //document.querySelector('.search').style.display = "none";
             document.querySelector('.searchInput').value = "";
             document.getElementById("style").href = "res/app-launcher.css";
         }
@@ -277,6 +280,7 @@ var Model = (function(){
 
     Model.prototype._getAllApplicationCallback = function(applicationInfoList){
 
+        console.log(applicationInfoList);
         var length = applicationInfoList.length;
 
         for(var i = 0; i < length; i++){

@@ -1,4 +1,4 @@
-<html>
+<!DOCTYPE html>
 <head>
 
 	<title>App Launcher</title>
@@ -8,8 +8,9 @@
 </head>
 
 <body >
-
-<div class="search"><input type="text" placeholder="Search" class="searchInput"></div>
+<div style="position:absolute;z-index: -1 ;top: 100px; left: -40px; opacity:0.1;-webkit-filter: grayscale(100%);"><img src="res/launch-icon.png" ></div>
+<div id="title">App Launcher</div>
+<div class="search"><img  src="res/search.png" width="10" height="10" /><input type="text" placeholder="Search" class="searchInput" /></div>
 
 <template id = "app-launcher-template">
 	<content>
@@ -21,5 +22,6 @@
 </template>
 
 <div id="bar"></div>
+
 </body>
 </html>

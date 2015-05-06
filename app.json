@@ -2,10 +2,14 @@
   "devtools_port": 9090,
   "startup_app": {
     "name": "app-launcher",
-    "url": "http://localhost:5000/",
+    "url": "http://localhost.mac/app-launchpad",
     "uuid": "openfin-app-launcher",
-    "applicationIcon": "http://localhost:5000/favicon.ico",
-    "autoShow": true
+    "applicationIcon": "res/launch-icon.png",
+    "autoShow":true,
+    "mainWindowOptions":{},
+    "frame": false,
+    "defaultWidth": 350,
+    "defaultHeight": 540
   },
   "runtime": {
     "arguments": "",
@@ -14,7 +18,7 @@
   "shortcut": {
     "company": "OpenFin",
     "description": "openfin-app-launcher",
-    "icon": "http://localhost:5000/favicon.ico",
+    "icon": "res/launch-icon.png",
     "name": "app-launcher"
   }
 }

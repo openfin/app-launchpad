@@ -1,4 +1,5 @@
 {
+  "title": "App Launchpad",
   "trayIcon": "https://developer.openf.in/download/openfin.png",
   "iconWidth":"100",
   "iconHeight":"100",
