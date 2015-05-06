@@ -2,7 +2,7 @@
   "devtools_port": 9090,
   "startup_app": {
     "name": "app-launcher",
-    "url": "http://localhost.mac/app-launchpad",
+    "url": "http://openfin.github.io/app-launchpad/",
     "uuid": "openfin-app-launcher",
     "applicationIcon": "http://openfin.github.io/app-launchpad/openfin.ico",
     "autoShow":true,
