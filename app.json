@@ -15,7 +15,7 @@
     "arguments": "",
     "version": "stable"
   },
-  "splashScreenImage": "http://openfin.github.io/app-launchpad/splash_applauncher.png",
+  "splashScreenImage": "http://openfin.github.io/app-launchpad/splashscreen/splash_applauncher.png",
   "shortcut": {
     "company": "OpenFin",
     "description": "openfin-app-launcher",
