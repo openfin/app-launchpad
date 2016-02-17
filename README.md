@@ -9,6 +9,15 @@ The intention of this repo is to provide developers a general approach to an app
 * Watermark image for corporate logos or branding
 
 ## Demo Example
-* Click this OpenFin [App Launcher installer](https://dl.openfin.co/services/download?fileName=app-launchpad&config=http://openfin.github.io/app-launchpad/app.json)
+* Click this OpenFin [App Launcher Installer](https://dl.openfin.co/services/download?fileName=app-launchpad&config=http://openfin.github.io/app-launchpad/app.json)
 * Unzip and run the installer
 * Double click the icon it creates on your desktop
+
+# Localhost Example
+* Make sure you have node installed [https://nodejs.org/en/](https://nodejs.org/en/)
+* Clone this repository
+* Open a command-line terminal, navigate to the 'app-launchpad' directory
+* in the terminal run 'npm install'
+* after all packages have installed run 'node server'
+* Download a locally running version with this link [Local App Launcher Installer](https://dl.openfin.co/services/download?fileName=app-launchpad-local&config=http://localhost:5000/app.json)
+* Unzip and run the installer
