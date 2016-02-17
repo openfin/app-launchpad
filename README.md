@@ -13,7 +13,7 @@ The intention of this repo is to provide developers a general approach to an app
 * Unzip and run the installer
 * Double click the icon it creates on your desktop
 
-# Localhost Example
+## Localhost Example
 * Make sure you have node installed [https://nodejs.org/en/](https://nodejs.org/en/)
 * Clone this repository
 * Open a command-line terminal, navigate to the 'app-launchpad' directory
