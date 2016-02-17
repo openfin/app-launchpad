@@ -2,9 +2,9 @@
   "devtools_port": 9090,
   "startup_app": {
     "name": "app-launcher",
-    "url": "http://openfin.github.io/app-launchpad/",
+    "url": "http://localhost:5000",
     "uuid": "openfin-app-launcher",
-    "applicationIcon": "http://openfin.github.io/app-launchpad/launch-icon.ico",
+    "applicationIcon": "http://localhost:5000/launch-icon.ico",
     "autoShow":true,
     "mainWindowOptions":{},
     "frame": false,
@@ -15,11 +15,11 @@
     "arguments": "",
     "version": "stable"
   },
-  "splashScreenImage": "http://openfin.github.io/app-launchpad/splash_applauncher.png",
+  "splashScreenImage": "http://localhost:5000/splashscreen/splash_applauncher.png",
   "shortcut": {
     "company": "OpenFin",
     "description": "openfin-app-launcher",
-    "icon": "http://openfin.github.io/app-launchpad/launch-icon.ico",
-    "name": "app-launcher"
+    "icon": "http://localhost:5000/launch-icon.ico",
+    "name": "app-launcher-local"
   }
 }
