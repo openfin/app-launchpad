@@ -1,7 +1,7 @@
-# App Launcher Example by OpenFin
+# App Launchpad Example by OpenFin
 
-## App Launcher Approach
-The intention of this repo is to provide developers a general approach to an app launcher for launching apps while utilizing OpenFin. By design, the approach is generic and not intended to solve specific internal app launcher use cases. Our thought here is to provide a framework for those app developers to have as a guide, but provide the flexibility and optionality to solve for their own unique use cases. 
+## App Launchpad Approach
+The intention of this repo is to provide developers a general approach to an app launchpad for launching apps while utilizing OpenFin. By design, the approach is generic and not intended to solve specific internal app launcher use cases. Our thought here is to provide a framework for those app developers to have as a guide, but provide the flexibility and optionality to solve for their own unique use cases. 
 
 *Note: Please be aware that this is not a product and consider cloning this project to use it.*
 
