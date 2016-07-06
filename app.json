@@ -13,7 +13,8 @@
   },
   "runtime": {
     "arguments": "",
-    "version": "alpha"
+    "version": "beta",
+    "forceLatest":true
   },
   "splashScreenImage": "http://openfin.github.io/app-launchpad/splashscreen/splash_applauncher.png",
   "shortcut": {
